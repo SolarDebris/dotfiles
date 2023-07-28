@@ -1,0 +1,18 @@
+{
+	"analysis.experimental.parseDebugInfo" : true,
+	"analysis.hlil.aggressiveConditionComplexityRemovalThreshold" : 64,
+	"arch.x86.disassembly.syntax" : "INTEL",
+	"ghinja.ghidra_install_path" : "/home/solardebris/build/ghidra_10.3_PUBLIC/support/analyzeHeadless",
+	"ui.developerMode" : true,
+	"ui.files.detection.database" : "always",
+	"ui.font.antialiasing" : "hidpi",
+	"ui.font.app.name" : "Fira Code Retina",
+	"ui.font.app.size" : 20,
+	"ui.font.view.name" : "Fira Code Retina",
+	"ui.font.view.size" : 20,
+	"ui.font.view.style" : "Regular",
+	"ui.log.maxSize" : 1000,
+	"ui.theme.name" : "Reflection",
+	"user.email" : "alexanderschmith@protonmail.com",
+	"user.name" : "Alex Schmith"
+}

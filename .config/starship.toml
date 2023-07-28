@@ -1,0 +1,111 @@
+# prompt-wide option # Disable the newline at the start of the prompt
+add_newline = true
+
+# format
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+[username]
+disabled = false
+style_root = "bold fg:200"
+style_user = "bold fg:yellow"
+format = "[$user]($style) "
+show_always = true
+
+
+[hostname]
+disabled = false
+style = "bold fg:green"
+ssh_only = false
+format = "👾 [$hostname]($style) " 
+# Linux
+# 
+# Windows
+# 
+# mac/apple
+# 
+
+[directory]
+disabled = false
+style = "bold fg:cyan"
+# fish_style_pwd_dir_length = 1
+format = "[ $path]($style)[$lock_symbol]($lock_style) "
+
+[git_branch]
+disabled = false
+style = "bold fg:bright-blue"
+symbol = " "
+
+[git_commit]
+disabled = false
+style = "bold bright-blue"
+
+[git_state]
+disabled = false
+style = "bold bright-red"
+
+[git_status]
+disabled = false
+style = "bold fg:red"
+conflicted.enabled = true
+modified.enabled = true
+staged.enabled = true
+
+[dotnet]
+disabled = false
+# symbol = " "
+
+[java]
+disabled = false
+# symbol = " "
+
+[package]
+disabled = false
+# symbol = " "
+
+[nodejs]
+disabled = false
+# symbol = " "
+
+[golang]
+disabled = false
+# symbol = " "
+
+[python]
+disabled = false
+pyenv_version_name = true
+# symbol = " "
+
+[ruby]
+disabled = false
+#symbol = " "
+
+[cmd_duration]
+disabled = false
+style = "bold fg:green"
+
+[env_var]
+disabled = true
+
+[time]
+disabled = true 
+# format = "[\\[$time\\]]($style)"
+# format = "🕒[\\[$time\\]]($style)"
+format = "⏰[\\[$time\\]]($style)"
+time_format = "%FT%T%:z"
+# time_format = "%+"
+utc_time_offset = "local"
+style = "bold  fg:cyan "
+
+# [battery]
+# full_symbol = ""
+# charging_symbol = ""
+# discharging_symbol = ""
+
+[character]
+disabled = false
+success_symbol = " [λ](bold green)"
+error_symbol = " [💀](bold red)"
+
+
