@@ -1,10 +1,4 @@
 env:
-  # TERM variable
-  #
-  # This value is used to set the `$TERM` environment variable for
-  # each instance of Alacritty. If it is not present, alacritty will
-  # check the local terminfo database and use `alacritty` if it is
-  # available, otherwise `xterm-256color` is used.
   TERM: xterm-256color
   
 
@@ -12,48 +6,42 @@ window:
   padding:
     x: 6
     y: 6
-
-  # Spread additional padding evenly around the terminal content.
   dynamic_padding: false
 
   title: Alacritty
 
-  # Window class (Linux/BSD only):
+
   class:
-    # Application instance name
     instance: Alacritty
-    # General application class
     general: Alacritty
 
 
 scrolling:
-  # Maximum number of lines in the scrollback buffer.
-  # Specifying '0' will disable scrolling.
   history: 50000
 
 tabspaces: 8
 
 font:
   normal:
-    # family: Source Code Pro
-    family: JetBrainsMono Nerd Font
+    family: Berkely Mono
+    # family: JetBrainsMono Nerd Font
 
     style: Regular
 
   bold:
-    # family: Source Code Pro
-    family: JetBrainsMono Nerd Font
+    family: Berkely Mono
+    # family: JetBrainsMono Nerd Font
     style: Bold
 
   italic:
-    # family: Source Code Pro
-    family: JetBrainsMono Nerd Font
+    family: Berkely Mono
+    # family: JetBrainsMono Nerd Font
 
     style: Italic
 
   bold_italic:
-    # family: Source Code Pro
-    family: JetBrainsMono Nerd Font
+    family: Berkely Mono
+    # family: JetBrainsMono Nerd Font
 
     style: Bold Italic
 
@@ -70,36 +58,6 @@ draw_bold_text_with_bright_colors: true
 ##      START OF COLOR SCHEMES       ##
 #######################################
 schemes:
-  ### Doom One ###
-  DoomOne: &DoomOne
-    primary:
-      background: '#282c34'
-      foreground: '#bbc2cf'
-    cursor:
-      text: CellBackground
-      cursor: '#528bff'
-    selection:
-      text: CellForeground
-      background: '#3e4451'
-    normal:
-      black:   '#1c1f24'
-      red:     '#ff6c6b'
-      green:   '#98be65'
-      yellow:  '#da8548'
-      blue:    '#51afef'
-      magenta: '#c678dd'
-      cyan:    '#5699af'
-      white:   '#202328'
-    bright:
-      black:   '#5b6268'
-      red:     '#da8548'
-      green:   '#4db5bd'
-      yellow:  '#ecbe7b'
-      blue:    '#3071db'   # This is 2257a0 in Doom Emacs but I lightened it.
-      magenta: '#a9a1e1'
-      cyan:    '#46d9ff'
-      white:   '#dfdfdf'
-
   ### Dracula ###
   Dracula: &Dracula
     primary:
@@ -158,46 +116,16 @@ schemes:
 ## SET THEME: Choose ONE color scheme from those in the above list. ##
 colors: *Dracula
 
-#######################################
-##       END OF COLOR SCHEMES        ##
-#######################################
-
-# Visual Bell
-#
-# Any time the BEL code is received, Alacritty "rings" the visual bell. Once
-# rung, the terminal background will be set to white and transition back to the
-# default background color. You can control the rate of this transition by
-# setting the `duration` property (represented in milliseconds). You can also
-# configure the transition function by setting the `animation` property.
-#
-# Values for `animation`:
-#   - Ease
-#   - EaseOut
-#   - EaseOutSine
-#   - EaseOutQuad
-#   - EaseOutCubic
-#   - EaseOutQuart
-#   - EaseOutQuint
-#   - EaseOutExpo
-#   - EaseOutCirc
-#   - Linear
-#
-# Specifying a `duration` of `0` will disable the visual bell.
-#visual_bell:
-#  animation: EaseOutExpo
-#  duration: 0
-#  color: '#ffffff'
 
 window.opacity: 1.0
 # window.opacity: 0.80
-
 
 live_config_reload: true
 
 working_directory: None
 
 
-#mouse:
+mouse:
   # Click settings
   #
   # The `double_click` and `triple_click` settings control the time
@@ -207,9 +135,9 @@ working_directory: None
   #triple_click: { threshold: 300 }
 
   # If this is `true`, the cursor is temporarily hidden when typing.
-  #hide_when_typing: false
+  hide_when_typing: false
 
-  #url:
+  url:
     # URL launcher
     #
     # This program is executed when clicking on a text which is recognized as a URL.
@@ -221,9 +149,9 @@ working_directory: None
     #   - (macOS) open
     #   - (Linux/BSD) xdg-open
     #   - (Windows) explorer
-    #launcher:
-    #  program: xdg-open
-    #  args: []
+    launcher:
+      program: xdg-open
+      args: []
 
     # URL modifiers
     #
