@@ -7,15 +7,17 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int startwithgaps	    = 1;
 static const unsigned int gappx	    = 20;
-static const char *fonts[]          = { "FiraCode:size=24" };
-static const char dmenufont[]       = "FiraCode:size=24";
+// static const char *fonts[]          = { "FiraCode:size=24" };
+// static const char dmenufont[]       = "FiraCode:size=24";
+static const char *fonts[]          = { "Berkeley Mono:size=24" };
+static const char dmenufont[]       = "Berkeley Mono:size=24";
 static const char col_gray1[]       = "#44475a";
 static const char col_gray2[]       = "#e8e7e6";
-//static const char col_gray2[]       = "#444444";
-//static const char col_gray3[]       = "#bbbbbb";
+// static const char col_gray2[]       = "#444444";
+// static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray3[]       = "#e8e7e6";
 static const char col_gray4[]       = "#e8e7e6";
-//static const char col_gray4[]       = "#eeeeee";
+// static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#ff5555";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
