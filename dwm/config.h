@@ -13,15 +13,15 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;		/* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char buttonbar[]       = ""; //󰣇   /* Empty string means no button */
+static const char buttonbar[]       = "󰣇"; //󰣇   /* Empty string means no button */
 static const int user_bh            = 0;        /* 0 means that dwm will calculate bar height */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int hidevacanttags		= 1;		/* Hide vacant tags and remove rectangle indicators */
 static const int floathighlight		= 0;		/* Use different border color for floating window */
 static const int floattitlecolor	= 1;		/* Use different title color for floating window */
 
-static const char *fonts[]          = { "Berkeley Mono:style=Medium:size=11", "Material Design Icons:size=11" };
-static const char dmenufont[]       = "Berkeley Mono:size=10";
+static const char *fonts[]          = { "Berkeley Mono:style=Medium:size=12", "Material Design Icons:size=12" };
+static const char dmenufont[]       = "Berkeley Mono:size=12";
 
 static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
@@ -135,9 +135,7 @@ static Key keys[] = {
 	// open programs
 	{ MODKEY,                       XK_Return,                spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_Return,                spawn,          {.v = dmenucmd } },
-	{ MODKEY|ControlMask,           XK_space,                 spawn,          {.v = dmenucmd } },
 	{ Mod1Mask,                     XK_space,                 spawn,          {.v = winlist } },
-	{ MODKEY,                       XK_Return,                spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_e,                     spawn,          {.v = files } },
 	{ MODKEY,                       XK_w,                     spawn,          {.v = browser } },
 	{ MODKEY|ControlMask,           XK_p,                     spawn,          {.v = pavu } },
