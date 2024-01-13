@@ -23,24 +23,24 @@ tabspaces: 8
 
 font:
   normal:
-    family: Berkely Mono
+    family: Berkeley Mono
     # family: JetBrainsMono Nerd Font
 
     style: Regular
 
   bold:
-    family: Berkely Mono
+    family: Berkeley Mono
     # family: JetBrainsMono Nerd Font
     style: Bold
 
   italic:
-    family: Berkely Mono
+    family: Berkeley Mono
     # family: JetBrainsMono Nerd Font
 
     style: Italic
 
   bold_italic:
-    family: Berkely Mono
+    family: Berkeley Mono
     # family: JetBrainsMono Nerd Font
 
     style: Bold Italic
@@ -138,17 +138,6 @@ mouse:
   hide_when_typing: false
 
   url:
-    # URL launcher
-    #
-    # This program is executed when clicking on a text which is recognized as a URL.
-    # The URL is always added to the command as the last parameter.
-    #
-    # When set to `None`, URL launching will be disabled completely.
-    #
-    # Default:
-    #   - (macOS) open
-    #   - (Linux/BSD) xdg-open
-    #   - (Windows) explorer
     launcher:
       program: xdg-open
       args: []
