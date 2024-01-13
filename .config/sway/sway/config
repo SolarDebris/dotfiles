@@ -10,11 +10,11 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term foot
+set $term alacritty
 set $menu wofi --show drun -i | xargs swaymsg exec --
 
 ### Output configuration
-output * bg /home/rush/walls/walli.png fill
+output * bg /home/solardebris/wallpapers/catalina.jpg fill
 
 ### Idle configuration
 #
@@ -34,7 +34,7 @@ output * bg /home/rush/walls/walli.png fill
 # Read `man 5 sway-input` for more information about this section.
 
 input * {
-	xkb_layout "de"
+	xkb_layout "us"
 	accel_profile flat
 	repeat_delay 200
 	repeat_rate 85
@@ -52,16 +52,10 @@ input * {
 	bindsym $mod+shift+s exec "alacritty -e micro /home/rush/.config/sway/config"
 
     # Kill focused window
-    bindsym $mod+q kill
+    bindsym $mod+shift+c kill
 
     # Start your launcher
-    bindsym alt+space exec $menu
-
-	# Screenshot utils
-	bindsym Print exec grimshot copy screen
-	bindsym Shift+Print exec grimshot copy area
-	bindsym print+alt exec grimshot save screen
-	bindsym $mod+print exec grimshot copy window
+    bindsym $mod+shift+Return exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -71,11 +65,11 @@ input * {
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
     # bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
-	bindsym $mod+Shift+e exec ~/.config/sway/swaypoweroff.sh
+	bindsym $mod+Shift+q exec ~/.config/sway/swaypoweroff.sh
 #
 # Moving around:
 #
@@ -201,10 +195,12 @@ client.focused #91d7e3 #91d7e3 #181926 #91d7e3
 gaps inner 8
 exec clipman
 exec dunst
+exec waybar
 exec autotiling
 exec blueman-applet
 exec gsettings set org.gnome.desktop.interface gtk-theme 'Colloid-Dark'
 exec gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark'
+exec swaybg -i ~/wallpapers/catalina.jpg -o *
 exec_always dunst
 output * max_render_time 35
 
