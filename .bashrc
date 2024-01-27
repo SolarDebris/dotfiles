@@ -2,7 +2,7 @@
 
 export TERM="xterm-256color"
 export EDITOR="nvim"
-export WIFI="wlp166s0"
+export WIFI="$(ifconfig | grep wlp | cut -d ':' -f 1)"
 export LANG="en_US.UTF-8"
 
 # If not running interactively, don't do anything

@@ -18,7 +18,7 @@ show_always = true
 disabled = false
 style = "bold fg:green"
 ssh_only = false
-format = "👾 [$hostname]($style) " 
+format = "   [$hostname]($style) " 
 # Linux
 # 
 # Windows
@@ -48,9 +48,6 @@ style = "bold bright-red"
 [git_status]
 disabled = false
 style = "bold fg:red"
-conflicted.enabled = true
-modified.enabled = true
-staged.enabled = true
 
 [dotnet]
 disabled = false
