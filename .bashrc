@@ -5,6 +5,18 @@ export EDITOR="nvim"
 export WIFI="$(ifconfig | grep wlp | cut -d ':' -f 1)"
 export LANG="en_US.UTF-8"
 
+# Expand the history size
+export HISTFILESIZE=10000
+export HISTSIZE=500
+# Don't put duplicate lines in the history and do not add lines that start with a space
+export HISTCONTROL=erasedups:ignoredups:ignorespace
+
+# Causes bash to append to history instead of overwriting it so if you start a new terminal, you have old session history
+shopt -s histappend
+PROMPT_COMMAND='history -a'
+
+
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -53,6 +65,35 @@ alias rz="rizin"
 
 # Git Stuff
 git config --global alias.lmao '!git add . && git commit -m "$(curl -s https://whatthecommit.com/index.txt)" && git push'
+
+
+# Extracts any archive(s) (if unp isn't installed)
+extract () {
+	for archive in $*; do
+		if [ -f $archive ] ; then
+			case $archive in
+				*.tar.bz2)   tar xvjf $archive    ;;
+				*.tar.gz)    tar xvzf $archive    ;;
+				*.bz2)       bunzip2 $archive     ;;
+				*.rar)       rar x $archive       ;;
+				*.gz)        gunzip $archive      ;;
+				*.tar)       tar xvf $archive     ;;
+				*.tbz2)      tar xvjf $archive    ;;
+				*.tgz)       tar xvzf $archive    ;;
+				*.zip)       unzip $archive       ;;
+				*.Z)         uncompress $archive  ;;
+				*.7z)        7z x $archive        ;;
+				*)           echo "don't know how to extract '$archive'..." ;;
+			esac
+		else
+			echo "'$archive' is not a valid file!"
+		fi
+	done
+}
+
+
+
+
 
 
 eval "$(starship init bash)"
