@@ -47,8 +47,8 @@ alias myip="curl ipinfo.io/ip"
 alias ports="netstat -tulpn"
 
 alias chbackground="feh --randomize --bg-fill ~/wallpapers/*"
-alias newpwn="cp ~/fitsec/ctf/pwntemplate.py .; mv ./pwntemplate.py"
-alias newangr="cp ~/fitsec/ctf/angrtemplate.py .; mv ./angrtemplate.py"
+alias newpwn="cp ~/stuff/ctf/pwntemplate.py .; mv ./pwntemplate.py"
+alias newangr="cp ~/stuff/templates/angrtemplate.py .; mv ./angrtemplate.py"
 alias rz="rizin"
 
 # Git Stuff
