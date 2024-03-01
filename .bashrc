@@ -53,6 +53,8 @@ alias paste='xsel --clipboard --output'
 # Aliases
 alias tmux='TERM=screen-256color tmux -2'
 
+alias ssh-add='eval `ssh-agent -s`; ssh-add' 
+
 # Networking
 alias me="echo $(ifconfig $WIFI | grep "inet " | cut -b 9- | cut -d " " -f 2)"
 alias myip="curl ipinfo.io/ip"
