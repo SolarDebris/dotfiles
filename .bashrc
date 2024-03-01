@@ -100,5 +100,19 @@ extract () {
 
 eval "$(starship init bash)"
 cd ~
-tmux -2
+
+# Checks if a tmux session is already running
+if tmux has-session 2>/dev/null; then
+    echo "A tmux session is running."
+
+    if tmux list-sessions | grep -q "(attached)"; then
+        echo "The tmux session is attached."
+    else
+        # Attach to the existing session
+        tmux attach-session
+    fi
+else
+    echo "No tmux session found. Creating a new session..."
+    tmux new-session -s mysession
+fi
 
