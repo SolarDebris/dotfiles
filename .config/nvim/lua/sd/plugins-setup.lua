@@ -31,9 +31,9 @@ return packer.startup(function(use)
 
 	--use("Mofiqul/dracula.nvim")
 	use({
-    		'NTBBloodbath/doom-one.nvim',
-    		setup = function()
-        		-- Add color to cursor
+		"NTBBloodbath/doom-one.nvim",
+		setup = function()
+			-- Add color to cursor
 			vim.g.doom_one_cursor_coloring = false
 			-- Set :terminal colors
 			vim.g.doom_one_terminal_colors = true
@@ -42,15 +42,15 @@ return packer.startup(function(use)
 			-- Enable TS support
 			vim.g.doom_one_enable_treesitter = true
 			-- Color whole diagnostic text or only underline
-        	vim.g.doom_one_diagnostics_text_color = false
+			vim.g.doom_one_diagnostics_text_color = false
 			-- Enable transparent background
 			vim.g.doom_one_transparent_background = false
 
-        	-- Pumblend transparency
+			-- Pumblend transparency
 			vim.g.doom_one_pumblend_enable = false
 			vim.g.doom_one_pumblend_transparency = 20
 
-        	-- Plugins integration
+			-- Plugins integration
 			vim.g.doom_one_plugin_neorg = true
 			vim.g.doom_one_plugin_barbar = false
 			vim.g.doom_one_plugin_telescope = false
@@ -64,8 +64,8 @@ return packer.startup(function(use)
 			vim.g.doom_one_plugin_lspsaga = false
 		end,
 		config = function()
-        	vim.cmd("colorscheme doom-one")
-   	 end,
+			vim.cmd("colorscheme doom-one")
+		end,
 	})
 
 	use("nvim-lua/plenary.nvim")
@@ -126,10 +126,12 @@ return packer.startup(function(use)
 		end,
 	})
 
-	use {'nvim-orgmode/orgmode', config = function()
-  		require('orgmode').setup{}
-	end
-	}
+	use({
+		"nvim-orgmode/orgmode",
+		config = function()
+			require("orgmode").setup({})
+		end,
+	})
 
 	-- auto closing
 	use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
@@ -147,10 +149,10 @@ return packer.startup(function(use)
 
 	-- git integration
 	use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
-	use { 'NeogitOrg/neogit', requires = 'nvim-lua/plenary.nvim' }
+	use({ "NeogitOrg/neogit", requires = "nvim-lua/plenary.nvim" })
 
 	use("folke/zen-mode.nvim")
-	
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end
