@@ -20,16 +20,30 @@ end
 mason.setup()
 
 mason_lspconfig.setup({
-	-- list of servers for mason to install
-	ensure_installed = {
-		"tsserver",
-		"html",
-		"cssls",
-		"tailwindcss",
-		"emmet_ls",
-	},
-	-- auto-install configured servers (with lspconfig)
-	automatic_installation = true, -- not the same as ensure_installed
+  -- list of servers for mason to install
+  ensure_installed = {
+    "tsserver",
+    "html",
+    "cssls",
+    "tailwindcss",
+    "sumneko_lua",
+    "emmet_ls",
+    "asm_lsp",
+    "bashls",
+    "clangd",
+    "cmake",
+    "dockerls",
+    "gopls",
+    "hls",
+    "julials",
+    "autotools_ls",
+    "markdown-oxide",
+    "jedi_language_server",
+    "rust_analyzer",
+    "zls"
+  },
+  -- auto-install configured servers (with lspconfig)
+  automatic_installation = true, -- not the same as ensure_installed
 })
 
 mason_null_ls.setup({
