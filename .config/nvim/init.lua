@@ -1,6 +1,5 @@
 require("sd.plugins-setup")
--- Core Files
-require("sd.core.options")
+-- Core Files require("sd.core.options")
 require("sd.core.keymaps")
 require("sd.core.colorscheme") -- Plugins require("sd.plugins.autopairs") require("sd.plugins.comment")
 require("sd.plugins.lualine")

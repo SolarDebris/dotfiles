@@ -29,7 +29,7 @@ end
 return packer.startup(function(use)
 	use("wbthomason/packer.nvim")
 
-	--use("Mofiqul/dracula.nvim")
+    --use("Mofiqul/dracula.nvim")
 	use({
     		'NTBBloodbath/doom-one.nvim',
     		setup = function()
@@ -74,9 +74,8 @@ return packer.startup(function(use)
 	use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" })
 	use({ "nvim-telescope/telescope-ui-select.nvim" }) -- for showing lsp code actions
 
-	use("nvim-lualine/lualine.nvim") -- A better statusline
-
 	use("nvim-tree/nvim-tree.lua")
+
 
 	use("kyazdani42/nvim-web-devicons")
 
@@ -125,11 +124,34 @@ return packer.startup(function(use)
 			ts_update()
 		end,
 	})
+    use {
+        'nvimdev/dashboard-nvim',
+        event = 'VimEnter',
+        config = function()
+            require('dashboard').setup {
+                -- config
+            }
+        end,
+        requires = {'nvim-tree/nvim-web-devicons'}
+    } 
 
+    use({
+        "NTBBloodbath/galaxyline.nvim",
+        -- your statusline
+        config = function()
+            require("galaxyline.themes.eviline")
+        end,
+        -- some optional icons
+        requires = { "kyazdani42/nvim-web-devicons", opt = true }
+    })
+
+
+    --[[
 	use {'nvim-orgmode/orgmode', config = function()
   		require('orgmode').setup{}
 	end
 	}
+    --]]
 
 	-- auto closing
 	use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
@@ -137,6 +159,7 @@ return packer.startup(function(use)
 
 	use("mcauley-penney/tidy.nvim")
 
+    --[[
 	use({
 		"lucastavaresa/simpleIndentGuides.nvim",
 		config = function()
@@ -144,6 +167,7 @@ return packer.startup(function(use)
 			require("simpleIndentGuides").setup()
 		end,
 	})
+    --]]
 
 	-- git integration
 	use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
