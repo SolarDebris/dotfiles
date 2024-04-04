@@ -52,6 +52,7 @@ alias paste='xsel --clipboard --output'
 
 # Aliases
 alias tmux='TERM=screen-256color tmux -2'
+alias vim='nvim'
 
 alias ssh-add='eval `ssh-agent -s`; ssh-add' 
 
@@ -99,6 +100,8 @@ extract () {
 
 
 eval "$(starship init bash)"
+eval "$(zoxide init bash)"
+
 cd ~
 
 # Checks if a tmux session is already running
