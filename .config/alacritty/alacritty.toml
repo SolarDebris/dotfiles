@@ -1,5 +1,5 @@
 live_config_reload = true
-#tabspaces = 8
+tabspaces = 8
 working_directory = "None"
 
 [colors]
