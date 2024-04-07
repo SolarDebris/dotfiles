@@ -1,8 +1,6 @@
-# Default config for sway
 #
-# Copy this to ~/.config/sway/config and edit it to your liking.
+# SolarDebris's sway config
 #
-# Read `man 5 sway` for a complete reference.
 
 ### Variables
 set $mod Mod4
@@ -14,20 +12,15 @@ set $term alacritty
 set $menu wofi --show drun -i | xargs swaymsg exec --
 
 ### Output configuration
-output * bg /home/solardebris/wallpapers/catalina.jpg fill
 
-### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+# Default Laptop Config
+output eDP-1 bg /home/solardebris/wallpapers/pier.jpg fill
+
+# Default Desktop Config
+
+#output DP-1 bg /home/solardebris/wallpapers/pier.jpg fill
+#output DP-2 transform 90 bg /home/solardebris/wallpapers/pier.jpg fill
+
 
 ### Input configuration
 # You can get the names of your inputs by running: swaymsg -t get_inputs
@@ -38,7 +31,6 @@ input * {
 	accel_profile flat
 	repeat_delay 200
 	repeat_rate 85
-#	pointer_accel 1
 }
 
 ### Key bindings
