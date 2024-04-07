@@ -2,52 +2,40 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
-;; and `package-pinned-packages`. Most users will not need or want to do this.
-;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 (package-refresh-contents)
 
-
-
 ;;
-;; Themes 
+;; Install Doom Themes 
 ;;
 
 (use-package doom-themes
   :ensure t
   :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (setq doom-themes-enable-bold t    
+        doom-themes-enable-italic t) 
   (load-theme 'doom-dracula t)
 
-  ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
-  ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (setq doom-themes-treemacs-theme "doom-atom") 
   (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
 (use-package doom-modeline
   :ensure t
   :hook (after-init . doom-modeline-mode))
 
-
 ;; Download Evil
 (unless (package-installed-p 'evil)
   (package-install 'evil))
-
 
 ;;
 ;; Org Packages
 ;;
 
 ;; Install and hook org mode
-(defun dw/org-mode-setup ()
+(defun sd/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
   (auto-fill-mode 0)
@@ -55,7 +43,7 @@
   (setq evil-auto-indent nil))
 
 (use-package org
-  :hook (org-mode . dw/org-mode-setup)
+  :hook (org-mode . sd/org-mode-setup)
   :config
   (setq org-ellipsis " ▾"
         org-hide-emphasis-markers t))
@@ -95,7 +83,11 @@
   :init
   (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
   :config
-  (lsp-enable-which-key-integration t))
+  (lsp-enable-which-key-integration t)
+  :hook
+  ((c-mode c++-mode python-mode asm-lsp go-mode rust-mode) . lsp)
+  )
+
 
 ;; Install company completion
 (use-package company
@@ -112,12 +104,28 @@
 (use-package company-box
   :hook (company-mode . company-box-mode))
 
+(use-package go-mode
+  :mode ("\\.go\\'" . go-mode))
 
-;; Install nerd fonts
-;;(use-package nerd-icons
-  ;; :custom
-  ;; The Nerd Font you want to use in GUI
-  ;; "Symbols Nerd Font Mono" is the default and is recommended
-  ;; but you can use any other Nerd Font if you want
-  ;; (nerd-icons-font-family "Symbols Nerd Font Mono")
-  ;;)
+(use-package rust-mode
+  :mode ("\\.rs\\'" . rust-mode)
+  :hook (rust-mode . eglot-ensure))
+
+(use-package zig-mode
+  :mode ("\\.zig\\'" . zig-mode)
+  :hook (zig-mode . eglot-ensure)
+  :custom
+  (zig-format-on-save nil)
+  (zig-format-show-buffer nil))
+
+(use-package lua-mode
+  :mode ("\\.lua\\'" . lua-mode))
+
+(use-package json-mode
+  :mode ("\\.json\\'" . json-mode))
+
+(use-package yaml-mode
+  :mode ("\\.yml\\'" . yaml-mode))
+
+(use-package deadgrep
+  :bind ("C-c C-f" . deadgrep))
