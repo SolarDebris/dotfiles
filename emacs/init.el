@@ -10,7 +10,14 @@
 (load "~/.emacs.d/sd/org.el")
 
 ;; Set font
-(set-face-attribute 'default nil :font "Berkeley Mono" :height 172)
+;; UHD Monitor
+;;(set-face-attribute 'default nil :font "Berkeley Mono" :height 172)
+;; 4k Monitor
+(set-face-attribute 'default nil :font "Berkeley Mono" :height 216)
+;; 1080p Monitor
+;;(set-face-attribute 'default nil :font "Berkeley Mono" :height 128)
+
+
 
 (defun sd/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
