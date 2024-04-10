@@ -1,40 +1,58 @@
-;;
-;; File for installing all packages
-;;
+;; ----------
+;; Packages |
+;; ----------
 
+;; Setup package archives
+(defun sd/setup-pkg-archives ()
+  "Setup package archives"
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
 
-;; Install MELPA Packages
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-
+;; Function that refreshes packages
 (defun sd/pkg-refresh ()
   "Initialize packages and refresh contents."
-  (package-initialize)
+  (unless package--initialized
+    (package-initialize))
+
+  (package-refresh-contents)
+  (unless (package-installed-p 'use-package)
+    (package-install 'use-package)
+    (require 'use-package))
   (package-refresh-contents))
 
+;; Hook org mode
+(defun sd/org-mode-setup ()
+  "Setup org mode"
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (auto-fill-mode 0)
+  (visual-line-mode 1)
+  (setq evil-auto-indent nil))
 
-(sd/pkg-refresh)
+;; Install package if not installed
+(defun sd/install-package (package)
+  "Install package if not installed"
+  (unless (package-installed-p 'package)
+    (package-install 'package)))
 
-(package-install 'use-package)
-(require 'use-package)
 
+(sd/setup-pkg-archives)
 (sd/pkg-refresh)
 
 ;;
-;; Install Doom Themes 
+;; Install Doom Themes
 ;;
-
 (use-package doom-themes
   :ensure t
   :config
-  (setq doom-themes-enable-bold t    
-        doom-themes-enable-italic t) 
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
   (load-theme 'doom-dracula t)
 
   (doom-themes-visual-bell-config)
   (doom-themes-neotree-config)
-  (setq doom-themes-treemacs-theme "doom-atom") 
+  (setq doom-themes-treemacs-theme "doom-atom")
   (doom-themes-treemacs-config)
   (doom-themes-org-config))
 
@@ -46,17 +64,9 @@
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 
-;;
-;; Org Packages
-;;
-
-;; Install and hook org mode
-(defun sd/org-mode-setup ()
-  (org-indent-mode)
-  (variable-pitch-mode 1)
-  (auto-fill-mode 0)
-  (visual-line-mode 1)
-  (setq evil-auto-indent nil))
+;;--------------------
+;; Org Mode Packages |
+;;--------------------
 
 (use-package org
   :hook (org-mode . sd/org-mode-setup)
@@ -85,13 +95,14 @@
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
+
 (use-package evil-magit
   :after magit)
 
 
-;;
-;; LSP Packages
-;;
+;;---------------
+;; LSP Packages |
+;;---------------
 
 ;; Install Lsp Mode
 (use-package lsp-mode
@@ -146,8 +157,42 @@
 (use-package deadgrep
   :bind ("C-c C-f" . deadgrep))
 
+(unless (package-installed-p 'beacon)
+  (package-install 'beacon))
+(require 'beacon)
+(beacon-mode 1)
+
+
+(unless (package-installed-p 'fzf)
+  (package-install 'fzf))
+
+
+(use-package fzf
+  :bind
+    ;; Don't forget to set keybinds!
+  :config
+  (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+        fzf/executable "fzf"
+        fzf/git-grep-args "-i --line-number %s"
+        ;; command used for `fzf-grep-*` functions
+        ;; example usage for ripgrep:
+        fzf/grep-command "rg --no-heading -nH"
+        ;;fzf/grep-command "grep -nrH"
+        ;; If nil, the fzf buffer will appear at the top of the window
+        fzf/position-bottom t
+        fzf/window-height 15))
+
+
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
+
+
 (unless (package-installed-p 'all-the-icons)
   (package-install 'all-the-icons))
+
 
 (use-package treemacs
   :ensure t
@@ -213,7 +258,6 @@
     ;; The default width and height of the icons is 22 pixels. If you are
     ;; using a Hi-DPI display, uncomment this to double the icon size.
     ;;(treemacs-resize-icons 44)
-
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode 'always)
