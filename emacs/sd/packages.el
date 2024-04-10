@@ -146,6 +146,8 @@
 (use-package deadgrep
   :bind ("C-c C-f" . deadgrep))
 
+(unless (package-installed-p 'all-the-icons)
+  (package-install 'all-the-icons))
 
 (use-package treemacs
   :ensure t
