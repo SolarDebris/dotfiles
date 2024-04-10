@@ -1,11 +1,25 @@
+;;
+;; File for installing all packages
+;;
+
+
 ;; Install MELPA Packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-;;(package-initialize)
+
+(defun sd/pkg-refresh ()
+  "Initialize packages and refresh contents."
+  (package-initialize)
+  (package-refresh-contents))
+
+
+(sd/pkg-refresh)
+
 (package-install 'use-package)
 (require 'use-package)
-(package-refresh-contents)
+
+(sd/pkg-refresh)
 
 ;;
 ;; Install Doom Themes 
