@@ -5,7 +5,7 @@
 
 ;; Load config file
 (load "~/.emacs.d/sd/packages.el")
-(load "~/.emacs.d/sd/evil.el")
+(load "~/.emacs.d/sd/keybindings.el")
 (load "~/.emacs.d/sd/options.el")
 (load "~/.emacs.d/sd/org.el")
 
