@@ -30,12 +30,6 @@
   (visual-line-mode 1)
   (setq evil-auto-indent nil))
 
-;; Install package if not installed
-(defun sd/install-package (package)
-  "Install package if not installed"
-  (unless (package-installed-p 'package)
-    (package-install 'package)))
-
 
 (sd/setup-pkg-archives)
 (sd/pkg-refresh)
@@ -67,7 +61,6 @@
 ;;--------------------
 ;; Org Mode Packages |
 ;;--------------------
-
 (use-package org
   :hook (org-mode . sd/org-mode-setup)
   :config
@@ -87,7 +80,6 @@
 ;; Install org-present if needed
 (unless (package-installed-p 'org-present)
   (package-install 'org-present))
-
 
 ;; Install Magit
 (use-package magit
