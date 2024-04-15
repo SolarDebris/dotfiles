@@ -11,13 +11,8 @@
 
 ;; Set font
 ;; UHD Monitor
-;;(set-face-attribute 'default nil :font "Berkeley Mono" :height 172)
-;; 4k Monitor
-(set-face-attribute 'default nil :font "Berkeley Mono" :height 216)
-;; 1080p Monitor
-;;(set-face-attribute 'default nil :font "Berkeley Mono" :height 128)
-
-
+(set-face-attribute 'default nil :font "Berkeley Mono" :height 128)
+(set-frame-font "Berkeley Mono 24")
 
 (defun sd/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
@@ -25,7 +20,6 @@
                    (float-time
                    (time-subtract after-init-time before-init-time)))
            gcs-done))
-
 
 (defun sd/print-system ()
   (pcase system-type
