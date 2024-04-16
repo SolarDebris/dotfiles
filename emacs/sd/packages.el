@@ -4,7 +4,7 @@
 
 ;; Setup package archives
 (defun sd/setup-pkg-archives ()
-  "Setup package archives"
+  "Setup package archives."
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")))
@@ -23,20 +23,27 @@
 
 ;; Hook org mode
 (defun sd/org-mode-setup ()
-  "Setup org mode"
+  "Setup org mode."
   (org-indent-mode)
   (variable-pitch-mode 1)
   (auto-fill-mode 0)
   (visual-line-mode 1)
   (setq evil-auto-indent nil))
 
+;; Install package if not installed
+(defun sd/install-package (package)
+  "Install package if not installed."
+  (unless (package-installed-p 'package)
+    (package-install 'package)))
+
 
 (sd/setup-pkg-archives)
 (sd/pkg-refresh)
 
-;;
-;; Install Doom Themes
-;;
+
+;;-----------------
+;; INSTALL THEMES |
+;;-----------------
 (use-package doom-themes
   :ensure t
   :config
@@ -58,9 +65,11 @@
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 
+
 ;;--------------------
 ;; Org Mode Packages |
 ;;--------------------
+
 (use-package org
   :hook (org-mode . sd/org-mode-setup)
   :config
@@ -73,6 +82,7 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
+
 (require 'org-habit)
 (add-to-list 'org-modules 'org-habit)
 (setq org-habit-graph-column 60)
@@ -81,16 +91,21 @@
 (unless (package-installed-p 'org-present)
   (package-install 'org-present))
 
+
+(unless (package-installed-p 'org-modern)
+  (package-install 'org-modern))
+
+(with-eval-after-load 'org (global-org-modern-mode))
+
+
 ;; Install Magit
 (use-package magit
   :commands (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
-
 (use-package evil-magit
   :after magit)
-
 
 ;;---------------
 ;; LSP Packages |
@@ -104,7 +119,7 @@
   :config
   (lsp-enable-which-key-integration t)
   :hook
-  ((c-mode c++-mode python-mode asm-lsp go-mode rust-mode) . lsp)
+  ((c-mode c++-mode python-mode asm-lsp nasm-mode asm-mode go-mode rust-mode) . lsp)
   )
 
 
@@ -119,6 +134,39 @@
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
+
+(unless (package-installed-p 'corfu)
+  (package-install 'corfu))
+
+(use-package corfu
+  ;; Optional customizations
+  :custom
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; Enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
+  :init
+  (global-corfu-mode)
+  :ensure t)
+
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package company-box
   :hook (company-mode . company-box-mode))
