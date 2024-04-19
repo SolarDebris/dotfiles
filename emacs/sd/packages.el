@@ -2,6 +2,7 @@
 ;; Packages |
 ;; ----------
 
+;;; Code:
 ;; Setup package archives
 (defun sd/setup-pkg-archives ()
   "Setup package archives."
@@ -27,19 +28,18 @@
   (org-indent-mode)
   (variable-pitch-mode 1)
   (auto-fill-mode 0)
+  (setq org-habit-graph-column 60)
   (visual-line-mode 1)
   (setq evil-auto-indent nil))
 
 ;; Install package if not installed
 (defun sd/install-package (package)
-  "Install package if not installed."
+  "Install PACKAGE if not installed."
   (unless (package-installed-p 'package)
     (package-install 'package)))
 
-
 (sd/setup-pkg-archives)
 (sd/pkg-refresh)
-
 
 ;;-----------------
 ;; INSTALL THEMES |
@@ -62,15 +62,15 @@
   :hook (after-init . doom-modeline-mode))
 
 ;; Download Evil
-(unless (package-installed-p 'evil)
-  (package-install 'evil))
-
+(use-package evil
+  :ensure t)
 
 ;;--------------------
 ;; Org Mode Packages |
 ;;--------------------
 
 (use-package org
+  :ensure t
   :hook (org-mode . sd/org-mode-setup)
   :config
   (setq org-ellipsis " ▾"
@@ -88,24 +88,50 @@
 (setq org-habit-graph-column 60)
 
 ;; Install org-present if needed
-(unless (package-installed-p 'org-present)
-  (package-install 'org-present))
+(use-package org-present
+  :ensure t)
 
+(use-package org-modern
+  :ensure t)
 
-(unless (package-installed-p 'org-modern)
-  (package-install 'org-modern))
+;;(unless (package-installed-p 'org-modern)
+  ;;(package-install 'org-modern))
 
 (with-eval-after-load 'org (global-org-modern-mode))
 
 
+(use-package org-brain :ensure t
+  :init
+  (setq org-brain-path "~/brain")
+  ;; For Evil users
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+  :config
+  (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
+  (setq org-id-track-globally t)
+  (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
+  (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
+  (push '("b" "Brain" plain (function org-brain-goto-end)
+          "* %i%?" :empty-lines 1)
+        org-capture-templates)
+  (setq org-brain-visualize-default-choices 'all)
+  (setq org-brain-title-max-length 12)
+  (setq org-brain-include-file-entries nil
+        org-brain-file-entries-use-title nil))
+
+;; Allows you to edit entries directly from org-brain-visualize
+(use-package polymode
+  :ensure t
+  :config
+  (add-hook 'org-brain-visualize-mode-hook #'org-brain-polymode))
+
 ;; Install Magit
 (use-package magit
+  :ensure t
   :commands (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
-(use-package evil-magit
-  :after magit)
 
 ;;---------------
 ;; LSP Packages |
@@ -113,6 +139,7 @@
 
 ;; Install Lsp Mode
 (use-package lsp-mode
+  :ensure t
   :commands (lsp lsp-deferred)
   :init
   (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
@@ -137,30 +164,12 @@
 
 (add-hook 'after-init-hook 'global-company-mode)
 
-(unless (package-installed-p 'corfu)
-  (package-install 'corfu))
-
 (use-package corfu
   ;; Optional customizations
+  :ensure t
   :custom
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
-  ;; (corfu-separator ?\s)          ;; Orderless field separator
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-
-  ;; Enable Corfu only for certain modes.
-  ;; :hook ((prog-mode . corfu-mode)
-  ;;        (shell-mode . corfu-mode)
-  ;;        (eshell-mode . corfu-mode))
-
-  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
-  ;; be used globally (M-/).  See also the customization variable
-  ;; `global-corfu-modes' to exclude certain modes.
+  (corfu-cycle t)
+  (corfu-auto t)
   :init
   (global-corfu-mode)
   :ensure t)
@@ -172,6 +181,12 @@
 
 (use-package company-box
   :hook (company-mode . company-box-mode))
+
+(use-package cc-mode
+  :hook (("\\.cpp\\'" "\\.c\\'") . cc-mode))
+
+(use-package python-mode
+  :mode ("\\.py\\'" . python-mode))
 
 (use-package go-mode
   :mode ("\\.go\\'" . go-mode))
@@ -197,21 +212,19 @@
   :mode ("\\.yml\\'" . yaml-mode))
 
 (use-package deadgrep
+  :ensure t
   :bind ("C-c C-f" . deadgrep))
 
-(unless (package-installed-p 'beacon)
-  (package-install 'beacon))
+(use-package beacon
+  :ensure t)
+
 (require 'beacon)
 (beacon-mode 1)
 
 
-(unless (package-installed-p 'fzf)
-  (package-install 'fzf))
-
-
 (use-package fzf
-  :bind
-    ;; Don't forget to set keybinds!
+  :ensure t
+  ;;:bind ("C-z f z" . fzf)
   :config
   (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
         fzf/executable "fzf"
@@ -225,16 +238,16 @@
         fzf/window-height 15))
 
 
+(use-package vterm
+    :ensure t)
 
 (use-package dashboard
   :ensure t
   :config
   (dashboard-setup-startup-hook))
 
-
-(unless (package-installed-p 'all-the-icons)
-  (package-install 'all-the-icons))
-
+(use-package all-the-icons
+  :ensure t)
 
 (use-package treemacs
   :ensure t
