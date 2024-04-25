@@ -29,7 +29,7 @@ alias .5="cd ../../../../.."
 # Aliases
 alias tmux='TERM=screen-256color tmux -2'
 alias vim='nvim'
-alias ls='exa -al --color=always --group-directories-first'
+alias ls='exa -al --color=always --group-directories-first --icons'
 alias cat='/bin/batcat'  # Default
 alias rcat='/bin/cat'  # Used for copying and pasting
 
