@@ -11,7 +11,7 @@ case $op in
                 loginctl $op
                 ;;
         lock)
-				swaylock
+		swaylock
                 ;;
         logout)
                 swaymsg exit
