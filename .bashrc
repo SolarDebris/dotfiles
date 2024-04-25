@@ -41,7 +41,7 @@ alias .3="cd ../../.."
 alias .4="cd ../../../.."
 alias .5="cd ../../../.."
 
-alias ls='exa -al --color=always --group-directories-first'
+alias ls='exa -al --color=always --group-directories-first --icons'
 
 alias cp="cp -i"
 alias mv="mv -i"
