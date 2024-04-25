@@ -95,6 +95,19 @@ extract () {
 	done
 }
 
+# gets the current os that it is being ran in 
+get_os(){
+	if [[ "$(uname)" == "Linux" ]]; then
+	    echo "Linux"
+	elif [[ "$(uname -r | grep Microsoft)" ]]; then
+	    echo "WSL"
+	elif [[ "$(uname)" == "Darwin" ]]; then
+	    echo "macOS"
+	else
+	    echo "Unknown"
+	fi
+}
+
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 eval "$(fzf --bash)"
