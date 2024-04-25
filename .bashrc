@@ -55,6 +55,8 @@ alias paste='xsel --clipboard --output'
 alias tmux='TERM=screen-256color tmux -2'
 alias vim='nvim'
 alias ssh-add='eval `ssh-agent -s`; ssh-add' 
+alias cat='bat'
+alias pat='/bin/cat'
 
 # Networking
 alias me="echo $(ifconfig $WIFI | grep "inet " | cut -b 9- | cut -d " " -f 2)"
@@ -62,7 +64,7 @@ alias myip="curl ipinfo.io/ip"
 alias ports="netstat -tulpn"
 
 alias chbackground="feh --randomize --bg-fill ~/wallpapers/*"
-alias newpwn="cp ~/stuff/ctf/pwntemplate.py .; mv ./pwntemplate.py"
+alias newpwn="cp ~/stuff/templates/pwntemplate.py .; mv ./pwntemplate.py"
 alias newangr="cp ~/stuff/templates/angrtemplate.py .; mv ./angrtemplate.py"
 alias rz="rizin"
 
