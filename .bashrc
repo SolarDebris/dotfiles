@@ -1,5 +1,4 @@
 ### Exports
-
 export TERM="xterm-256color"
 export EDITOR="nvim"
 export WIFI="$(ifconfig | grep wlp | cut -d ':' -f 1)"
@@ -15,8 +14,6 @@ export HISTCONTROL=erasedups:ignoredups:ignorespace
 shopt -s histappend
 PROMPT_COMMAND='history -a'
 
-
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -24,6 +21,10 @@ PROMPT_COMMAND='history -a'
 ### PATH
 if [ -d "$HOME/.bin" ] ;
     then PATH="$HOME/.bin:$PATH"
+fi
+
+if [ -d "$HOME/.cargo" ];
+    then PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 if [ -d "$HOME/.local/bin" ];
@@ -53,7 +54,6 @@ alias paste='xsel --clipboard --output'
 # Aliases
 alias tmux='TERM=screen-256color tmux -2'
 alias vim='nvim'
-
 alias ssh-add='eval `ssh-agent -s`; ssh-add' 
 
 # Networking
@@ -68,7 +68,6 @@ alias rz="rizin"
 
 # Git Stuff
 git config --global alias.lmao '!git add . && git commit -m "$(curl -s https://whatthecommit.com/index.txt)" && git push'
-
 
 # Extracts any archive(s) (if unp isn't installed)
 extract () {
@@ -94,16 +93,9 @@ extract () {
 	done
 }
 
-
-
-
-
-
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 eval "$(fzf --bash)"
-
-cd ~
 
 # Checks if a tmux session is already running
 if tmux has-session 2>/dev/null; then
