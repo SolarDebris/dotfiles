@@ -10,16 +10,17 @@ set $up k
 set $right l
 set $term alacritty
 set $menu wofi --show drun -i | xargs swaymsg exec --
+set $bg /home/solardebris/wallpapers/pier.jpg
 
 ### Output configuration
 
 # Default Laptop Config
-output eDP-1 bg /home/solardebris/wallpapers/pier.jpg fill
+output eDP-1 bg $bg fill
 
 # Default Desktop Config
 
-#output DP-1 bg /home/solardebris/wallpapers/pier.jpg fill
-#output DP-2 transform 90 bg /home/solardebris/wallpapers/pier.jpg fill
+#output DP-1 bg $bg fill
+#output DP-2 transform 90 bg $bg fill
 
 
 ### Input configuration
