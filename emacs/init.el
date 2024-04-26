@@ -14,6 +14,9 @@
 (set-face-attribute 'default nil :font "Berkeley Mono" :height 128)
 (set-frame-font "Berkeley Mono 24")
 
+;;(set-frame-font "BerkeleyMono Nerd Font Mono Plus Font Awesome Extension Plus Octicons Plus Power Symbols Plus Codicons Plus Pomicons Plus Font Logos Plus Material Design Icons Plus Weather Icons 24")
+;;(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font Mono Plus Font Awesome Extension Plus Octicons Plus Power Symbols Plus Codicons Plus Pomicons Plus Font Logos Plus Material Design Icons Plus Weather Icons 24"  :height 216)
+
 (defun sd/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
            (format "%.2f seconds"
