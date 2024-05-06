@@ -2,6 +2,8 @@
 ;; Packages |
 ;; ----------
 
+;;(set-variable package-check-package-signatures nil)
+
 ;;; Code:
 ;; Setup package archives
 (defun sd/setup-pkg-archives ()
@@ -32,11 +34,27 @@
   (visual-line-mode 1)
   (setq evil-auto-indent nil))
 
-;; Install package if not installed
-(defun sd/install-package (package)
-  "Install PACKAGE if not installed."
-  (unless (package-installed-p 'package)
-    (package-install 'package)))
+;; Bootstrap straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+
+(straight-use-package 'use-package)
+
+
 
 (sd/setup-pkg-archives)
 (sd/pkg-refresh)
@@ -45,7 +63,7 @@
 ;; INSTALL THEMES |
 ;;-----------------
 (use-package doom-themes
-  :ensure t
+  :straight t
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
@@ -57,20 +75,23 @@
   (doom-themes-treemacs-config)
   (doom-themes-org-config))
 
+(use-package compat
+  :straight t)
+
 (use-package doom-modeline
-  :ensure t
+  :straight t
   :hook (after-init . doom-modeline-mode))
 
 ;; Download Evil
 (use-package evil
-  :ensure t)
+  :straight t)
 
 ;;--------------------
 ;; Org Mode Packages |
 ;;--------------------
 
 (use-package org
-  :ensure t
+  :straight t
   :hook (org-mode . sd/org-mode-setup)
   :config
   (setq org-ellipsis " ▾"
@@ -89,18 +110,16 @@
 
 ;; Install org-present if needed
 (use-package org-present
-  :ensure t)
+  :straight t)
 
 (use-package org-modern
-  :ensure t)
-
-;;(unless (package-installed-p 'org-modern)
-  ;;(package-install 'org-modern))
+  :straight t)
 
 (with-eval-after-load 'org (global-org-modern-mode))
 
 
-(use-package org-brain :ensure t
+(use-package org-brain
+  :straight t
   :init
   (setq org-brain-path "~/brain")
   ;; For Evil users
@@ -110,7 +129,7 @@
   (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
   (setq org-id-track-globally t)
   (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
-  (add-hook 'before-save-hook #'org-brain-ensure-ids-in-buffer)
+  (add-hook 'before-save-hook #'org-brain-straight-ids-in-buffer)
   (push '("b" "Brain" plain (function org-brain-goto-end)
           "* %i%?" :empty-lines 1)
         org-capture-templates)
@@ -121,13 +140,13 @@
 
 ;; Allows you to edit entries directly from org-brain-visualize
 (use-package polymode
-  :ensure t
+  :straight t
   :config
   (add-hook 'org-brain-visualize-mode-hook #'org-brain-polymode))
 
 ;; Install Magit
 (use-package magit
-  :ensure t
+  :straight t
   :commands (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
@@ -139,20 +158,29 @@
 
 ;; Install Lsp Mode
 (use-package lsp-mode
-  :ensure t
+  :straight t
   :commands (lsp lsp-deferred)
   :init
   (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
   :config
   (lsp-enable-which-key-integration t)
   :hook
-  ((c-mode c++-mode python-mode asm-lsp nasm-mode asm-mode go-mode rust-mode) . lsp)
+  ((prog-mode c-mode c++-mode python-mode asm-lsp nasm-mode asm-mode go-mode rust-mode) . lsp)
   )
+
+(use-package lsp-ui
+  :straight t)
+
+(use-package lsp-python-ms
+  :straight t
+  :defer 0.3
+  :custom (lsp-python-ms-auto-install-server t))
 
 
 ;; Install company completion
 (use-package company
   :after lsp-mode
+  :straight t
   :hook (prog-mode . company-mode)
   :bind (:map company-active-map
          ("<tab>" . company-complete-selection))
@@ -166,16 +194,16 @@
 
 (use-package corfu
   ;; Optional customizations
-  :ensure t
+  :straight t
   :custom
   (corfu-cycle t)
   (corfu-auto t)
   :init
   (global-corfu-mode)
-  :ensure t)
+  :straight t)
 
 (use-package flycheck
-  :ensure t
+  :straight t
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
@@ -185,6 +213,18 @@
 (use-package cc-mode
   :hook (("\\.cpp\\'" "\\.c\\'") . cc-mode))
 
+(use-package ccls
+  :straight t
+  :after projectile
+  :ensure-system-package ccls
+  :custom
+  (ccls-args nil)
+  (ccls-executable (executable-find "ccls"))
+  (projectile-project-root-files-top-down-recurring
+   (append '("compile_commands.json" ".ccls")
+           projectile-project-root-files-top-down-recurring))
+  :config (push ".ccls-cache" projectile-globally-ignored-directories))
+
 (use-package python-mode
   :mode ("\\.py\\'" . python-mode))
 
@@ -193,11 +233,11 @@
 
 (use-package rust-mode
   :mode ("\\.rs\\'" . rust-mode)
-  :hook (rust-mode . eglot-ensure))
+  :hook (rust-mode . eglot-straight))
 
 (use-package zig-mode
   :mode ("\\.zig\\'" . zig-mode)
-  :hook (zig-mode . eglot-ensure)
+  :hook (zig-mode . eglot-straight)
   :custom
   (zig-format-on-save nil)
   (zig-format-show-buffer nil))
@@ -212,18 +252,21 @@
   :mode ("\\.yml\\'" . yaml-mode))
 
 (use-package deadgrep
-  :ensure t
+  :straight t
   :bind ("C-c C-f" . deadgrep))
 
 (use-package beacon
-  :ensure t)
+  :straight t)
 
 (require 'beacon)
 (beacon-mode 1)
 
+(use-package hydra
+  :straight t)
+
 
 (use-package fzf
-  :ensure t
+  :straight t
   ;;:bind ("C-z f z" . fzf)
   :config
   (setq fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
@@ -237,20 +280,25 @@
         fzf/position-bottom t
         fzf/window-height 15))
 
+(use-package which-key
+  :straight t
+  :defer 0.2
+  :diminish
+  :config (which-key-mode))
 
 (use-package vterm
-    :ensure t)
+    :straight t)
 
 (use-package dashboard
-  :ensure t
+  :straight t
   :config
   (dashboard-setup-startup-hook))
 
 (use-package all-the-icons
-  :ensure t)
+  :straight t)
 
 (use-package treemacs
-  :ensure t
+  :straight t
   :defer t
   :init
   (with-eval-after-load 'winum
@@ -339,26 +387,26 @@
 
 (use-package treemacs-evil
   :after (treemacs evil)
-  :ensure t)
+  :straight t)
 
 (use-package treemacs-projectile
   :after (treemacs projectile)
-  :ensure t)
+  :straight t)
 
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
+  :straight t)
 
 (use-package treemacs-magit
   :after (treemacs magit)
-  :ensure t)
+  :straight t)
 
 (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-  :ensure t
+  :straight t
   :config (treemacs-set-scope-type 'Perspectives))
 
 (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
   :after (treemacs)
-  :ensure t
+  :straight t
   :config (treemacs-set-scope-type 'Tabs))
