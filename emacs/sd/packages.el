@@ -34,6 +34,7 @@
   (visual-line-mode 1)
   (setq evil-auto-indent nil))
 
+
 ;; Bootstrap straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -51,13 +52,11 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-
 (straight-use-package 'use-package)
-
-
 
 (sd/setup-pkg-archives)
 (sd/pkg-refresh)
+
 
 ;;-----------------
 ;; INSTALL THEMES |
@@ -86,57 +85,6 @@
 (use-package evil
   :straight t)
 
-;;--------------------
-;; Org Mode Packages |
-;;--------------------
-
-(use-package org
-  :straight t
-  :hook (org-mode . sd/org-mode-setup)
-  :config
-  (setq org-ellipsis " ▾"
-        org-hide-emphasis-markers t))
-
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)
-  :custom
-  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-
-
-(require 'org-habit)
-(add-to-list 'org-modules 'org-habit)
-(setq org-habit-graph-column 60)
-
-;; Install org-present if needed
-(use-package org-present
-  :straight t)
-
-(use-package org-modern
-  :straight t)
-
-(with-eval-after-load 'org (global-org-modern-mode))
-
-
-(use-package org-brain
-  :straight t
-  :init
-  (setq org-brain-path "~/brain")
-  ;; For Evil users
-  (with-eval-after-load 'evil
-    (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
-  :config
-  (bind-key "C-c b" 'org-brain-prefix-map org-mode-map)
-  (setq org-id-track-globally t)
-  (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
-  (add-hook 'before-save-hook #'org-brain-straight-ids-in-buffer)
-  (push '("b" "Brain" plain (function org-brain-goto-end)
-          "* %i%?" :empty-lines 1)
-        org-capture-templates)
-  (setq org-brain-visualize-default-choices 'all)
-  (setq org-brain-title-max-length 12)
-  (setq org-brain-include-file-entries nil
-        org-brain-file-entries-use-title nil))
 
 ;; Allows you to edit entries directly from org-brain-visualize
 (use-package polymode
@@ -151,105 +99,39 @@
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
+;;-------------;;
+;;    IVY      ;;
+;;-------------;;
 
-;;---------------
-;; LSP Packages |
-;;---------------
+(use-package counsel
+  :after ivy
+  :config (counsel-mode))
 
-;; Install Lsp Mode
-(use-package lsp-mode
-  :straight t
-  :commands (lsp lsp-deferred)
-  :init
-  (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+(use-package ivy
+  :defer 0.1
+  :diminish
+  :bind (("C-c C-r" . ivy-resume)
+         ("C-x B" . ivy-switch-buffer-other-window))
+  :custom
+  (ivy-count-format "(%d/%d) ")
+  (ivy-use-virtual-buffers t)
+  :config (ivy-mode))
+
+(use-package ivy-rich
+  :after ivy
+  :custom
+  (ivy-virtual-abbreviate 'full
+                          ivy-rich-switch-buffer-align-virtual-buffer t
+                          ivy-rich-path-style 'abbrev)
   :config
-  (lsp-enable-which-key-integration t)
-  :hook
-  ((prog-mode c-mode c++-mode python-mode asm-lsp nasm-mode asm-mode go-mode rust-mode) . lsp)
-  )
+  (ivy-set-display-transformer 'ivy-switch-buffer
+                               'ivy-rich-switch-buffer-transformer))
 
-(use-package lsp-ui
-  :straight t)
+(use-package swiper
+  :after ivy
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper)))
 
-(use-package lsp-python-ms
-  :straight t
-  :defer 0.3
-  :custom (lsp-python-ms-auto-install-server t))
-
-
-;; Install company completion
-(use-package company
-  :after lsp-mode
-  :straight t
-  :hook (prog-mode . company-mode)
-  :bind (:map company-active-map
-         ("<tab>" . company-complete-selection))
-        (:map lsp-mode-map
-         ("<tab>" . company-indent-or-complete-common))
-  :custom
-  (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0))
-
-(add-hook 'after-init-hook 'global-company-mode)
-
-(use-package corfu
-  ;; Optional customizations
-  :straight t
-  :custom
-  (corfu-cycle t)
-  (corfu-auto t)
-  :init
-  (global-corfu-mode)
-  :straight t)
-
-(use-package flycheck
-  :straight t
-  :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
-
-(use-package company-box
-  :hook (company-mode . company-box-mode))
-
-(use-package cc-mode
-  :hook (("\\.cpp\\'" "\\.c\\'") . cc-mode))
-
-(use-package ccls
-  :straight t
-  :after projectile
-  :ensure-system-package ccls
-  :custom
-  (ccls-args nil)
-  (ccls-executable (executable-find "ccls"))
-  (projectile-project-root-files-top-down-recurring
-   (append '("compile_commands.json" ".ccls")
-           projectile-project-root-files-top-down-recurring))
-  :config (push ".ccls-cache" projectile-globally-ignored-directories))
-
-(use-package python-mode
-  :mode ("\\.py\\'" . python-mode))
-
-(use-package go-mode
-  :mode ("\\.go\\'" . go-mode))
-
-(use-package rust-mode
-  :mode ("\\.rs\\'" . rust-mode)
-  :hook (rust-mode . eglot-straight))
-
-(use-package zig-mode
-  :mode ("\\.zig\\'" . zig-mode)
-  :hook (zig-mode . eglot-straight)
-  :custom
-  (zig-format-on-save nil)
-  (zig-format-show-buffer nil))
-
-(use-package lua-mode
-  :mode ("\\.lua\\'" . lua-mode))
-
-(use-package json-mode
-  :mode ("\\.json\\'" . json-mode))
-
-(use-package yaml-mode
-  :mode ("\\.yml\\'" . yaml-mode))
 
 (use-package deadgrep
   :straight t
@@ -293,6 +175,24 @@
   :straight t
   :config
   (dashboard-setup-startup-hook))
+
+(setq dashboard-icon-type 'all-the-icons)
+(setq dashboard-items '((recents   . 5)
+                        (bookmarks . 5)
+                        (projects  . 5)
+                        (agenda    . 5)
+                        (registers . 5)))
+(setq dashboard-startupify-list '(dashboard-insert-banner
+                                  dashboard-insert-newline
+                                  dashboard-insert-banner-title
+                                  dashboard-insert-newline
+                                  dashboard-insert-navigator
+                                  dashboard-insert-newline
+                                  dashboard-insert-init-info
+                                  dashboard-insert-items
+                                  dashboard-insert-newline
+                                  dashboard-insert-footer))
+
 
 (use-package all-the-icons
   :straight t)
