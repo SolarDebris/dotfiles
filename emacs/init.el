@@ -1,4 +1,3 @@
-
 ;; Set the garbage collector to run less
 ;; The default is 800 kilobytes.  Measured in bytes.
 (setq gc-cons-threshold (* 50 1000 1000))
@@ -8,14 +7,21 @@
 (load "~/.emacs.d/sd/keybindings.el")
 (load "~/.emacs.d/sd/options.el")
 (load "~/.emacs.d/sd/org.el")
+(load "~/.emacs.d/sd/lsp.el")
 
-;; Set font
-;; UHD Monitor
-(set-face-attribute 'default nil :font "Berkeley Mono" :height 128)
-(set-frame-font "Berkeley Mono 24")
+;; Set font if available else set backup font
+(defun sd/set-available-font (font-name backup-font size height)
+    (if (member font-name (font-family-list))
+        (progn
+            (message "Font %s set successfully." font-name)
+            (set-frame-font (format "%s %s" font-name size))
+            (set-face-attribute 'default nil :font font-name :height height)))
+    (message "Font %s not set." font-name)
+    (set-frame-font (format "%s %s" backup-font size))
+    (set-face-attribute 'default nil :font backup-font :height height))
 
-;;(set-frame-font "BerkeleyMono Nerd Font Mono Plus Font Awesome Extension Plus Octicons Plus Power Symbols Plus Codicons Plus Pomicons Plus Font Logos Plus Material Design Icons Plus Weather Icons 24")
-;;(set-face-attribute 'default nil :font "BerkeleyMono Nerd Font Mono Plus Font Awesome Extension Plus Octicons Plus Power Symbols Plus Codicons Plus Pomicons Plus Font Logos Plus Material Design Icons Plus Weather Icons 24"  :height 216)
+
+(sd/set-available-font "BerkeleyMono NFM" "Berkeley Mono" "24" 216)
 
 (defun sd/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
@@ -30,7 +36,7 @@
     ('windows-nt "It's Windows!")
     ('darwin "It's macOS!")))
 
-(defun sd/print-if-daemon () 
+(defun sd/print-if-daemon ()
   (if (daemonp)
     (message "Loading in the daemon!")
     (message "Loading in regular Emacs!")))
@@ -38,8 +44,4 @@
 ;; Make gc pauses faster by decreasing the threshold.
 (setq gc-cons-threshold (* 2 1000 1000))
 
-
 (add-hook 'emacs-startup-hook #'sd/display-startup-time)
-
-
-
