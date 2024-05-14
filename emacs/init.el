@@ -21,7 +21,10 @@
     (set-face-attribute 'default nil :font backup-font :height height))
 
 
-(sd/set-available-font "BerkeleyMono NFM" "Berkeley Mono" "24" 216)
+(sd/set-available-font "BerkeleyMono NFM" "Berkeley Mono" "18" 176)
+
+(setq auto-save-default nil)
+
 
 (defun sd/display-startup-time ()
   (message "Emacs loaded in %s with %d garbage collections."
