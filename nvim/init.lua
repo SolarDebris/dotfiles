@@ -11,6 +11,3 @@ require("sd.plugins.treesitter")
 require("sd.plugins.lsp.lspconfig")
 require("sd.plugins.lsp.mason")
 require("sd.plugins.lsp.null-ls")
-
-
-

@@ -3,6 +3,7 @@ export TERM="xterm-256color"
 export EDITOR="nvim"
 export WIFI="$(ifconfig | grep wlp | cut -d ':' -f 1)"
 export LANG="en_US.UTF-8"
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 # Expand the history size
 export HISTFILESIZE=10000
