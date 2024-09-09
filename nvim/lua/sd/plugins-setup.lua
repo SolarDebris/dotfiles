@@ -113,6 +113,10 @@ require("lazy").setup({
 	"ms-jpq/coq.artifacts",
 	"ms-jpq/coq.thirdparty",
 
+	"iamcco/markdown-preview.nvim",
+	"MeanderingProgrammer/render-markdown.nvim",
+	
+
 
 	"ThePrimeagen/vim-be-good",
 
