@@ -25,6 +25,13 @@
 (use-package org-modern
   :straight t)
 
+(use-package org-timeblock
+  :straight (org-timeblock 
+              :type git
+              :host github
+              :repo "ichernyshovvv/org-timeblock"))
+
+
 (with-eval-after-load 'org (global-org-modern-mode))
 
 
