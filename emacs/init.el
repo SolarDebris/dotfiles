@@ -21,7 +21,7 @@
     (set-face-attribute 'default nil :font backup-font :height height))
 
 
-(sd/set-available-font "BerkeleyMono NFM" "Berkeley Mono" "18" 176)
+(sd/set-available-font "BerkeleyMono NFM" "Berkeley Mono" "18" 128)
 
 (setq auto-save-default nil)
 

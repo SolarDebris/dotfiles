@@ -34,7 +34,6 @@
   (visual-line-mode 1)
   (setq evil-auto-indent nil))
 
-
 ;; Bootstrap straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -167,9 +166,6 @@
   :defer 0.2
   :diminish
   :config (which-key-mode))
-
-(use-package vterm
-    :straight t)
 
 (use-package dashboard
   :straight t
