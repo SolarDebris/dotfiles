@@ -10,15 +10,15 @@ set $up k
 set $right l
 set $term alacritty
 set $menu wofi --show drun -i | xargs swaymsg exec --
-set $bg /home/solardebris/wallpapers/pier.jpg
+set $bg ~/wallpapers/pier.jpg
 
 ### Output configuration
+output * bg $bg fill
 
 # Default Laptop Config
-output eDP-1 bg $bg fill
+#output eDP-1 bg $bg fill
 
 # Default Desktop Config
-
 #output DP-1 bg $bg fill
 #output DP-2 transform 90 bg $bg fill
 
@@ -40,9 +40,6 @@ input * {
 #
     # Start a terminal
     bindsym $mod+Return exec $term
-
-	# Open this file in Alacritty+Micro
-	bindsym $mod+shift+s exec "alacritty -e micro /home/rush/.config/sway/config"
 
     # Kill focused window
     bindsym $mod+shift+c kill
@@ -183,7 +180,8 @@ bindsym $mod+r mode "resize"
 
 exec_always nwg-panel
 include /etc/sway/config.d/*
-default_border pixel
+default_border pixel 5
+
 client.focused #91d7e3 #91d7e3 #181926 #91d7e3
 gaps inner 8
 exec clipman
